@@ -2,6 +2,9 @@ import requests
 from datetime import datetime
 
 def get_data(url):
+    """
+    Получает данные по ссылке
+    """
     try:
         response = requests.get(url)
         if response.status_code == 200:
@@ -12,6 +15,9 @@ def get_data(url):
 
 
 def get_filtered_data(data, filtered_empty_from=False):
+    """
+    Фильтрует полученные данные
+    """
     data = [x for x in data if "state" in x and x["state"] == 'EXECUTED']
     if filtered_empty_from:
         data = [x for x in data if "from" in x]
@@ -19,11 +25,17 @@ def get_filtered_data(data, filtered_empty_from=False):
 
 
 def get_last_data(data, count_last_values):
+    """
+    Возвращает последнюю транзакцию
+    """
     data = sorted(data, key=lambda x: x["date"], reverse=True)
     return data[:count_last_values]
 
 
 def get_formatted_data(data):
+    """
+    Форматирование данных в нужный вид
+    """
     formatted_data = []
     for row in data:
         date = datetime.strptime(row["date"], "%Y-%m-%dT%H:%M:%S.%f").strftime("%d.%m.%Y")
