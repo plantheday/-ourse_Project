@@ -1,17 +1,11 @@
-import requests
 from datetime import datetime
 
-def get_data(url):
+
+def get_data(operations):
     """
-    Получает данные по ссылке
+    Возвращает данные об операциях
     """
-    try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            return response.json(), "INFO: Данные получены успешно!"
-        return None, f"WARNING: Статус ответа {response.status_code}"
-    except requests.exceptions.ConnectionError:
-        return None, "ERROR: requests.exceptions.ConnectionError"
+    return operations
 
 
 def get_filtered_data(data, filtered_empty_from=False):
@@ -48,7 +42,6 @@ def get_formatted_data(data):
             sender_info = " ".join(sender)
         else:
             sender_bill, sender_info = "", "[СКРЫТО]"
-
 
         recipient = f"**{row['to'][-4:]}"
         amount = f'{row["operationAmount"]["amount"]} {row["operationAmount"]["currency"]["name"]}'
